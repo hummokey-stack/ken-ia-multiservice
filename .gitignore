@@ -1,0 +1,12 @@
+# Secrets — ne jamais committer
+.env
+.env.local
+.env.production
+
+# Dossiers système
+.DS_Store
+Thumbs.db
+node_modules/
+
+# Logs
+*.log
