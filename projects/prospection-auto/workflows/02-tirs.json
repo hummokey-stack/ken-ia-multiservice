@@ -1,0 +1,192 @@
+{
+  "name": "02 - TIRS | Envoi WhatsApp + Email aux Prospects",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "0 10 * * 1-6" }]
+        }
+      },
+      "id": "b1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Déclencheur 10h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "readOrSearch",
+        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "sheetName": { "mode": "name", "value": "Prospects" },
+        "filtersUI": {
+          "values": [
+            { "lookupColumn": "Statut", "lookupValue": "NOUVEAU" }
+          ]
+        },
+        "options": { "returnFirstMatch": false }
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000002",
+      "name": "Lire prospects NOUVEAU",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "b1b2c3d4-0003-0003-0003-000000000003",
+      "name": "Un prospect à la fois",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Génère le message personnalisé selon le secteur et le pays\nconst p = $json;\nconst nom = p.Nom || 'votre établissement';\nconst secteur = (p.Secteur || '').toLowerCase();\nconst pays = p.Pays || 'France';\n\n// Templates par secteur\nlet intro = '';\nlet offre = '';\nlet prix = '';\n\nif (secteur.includes('restaurant') || secteur.includes('ristorante') || secteur.includes('restaurante')) {\n  intro = `Bonjour,\\n\\nJ'ai trouvé *${nom}* sur Google Maps et j'ai remarqué que vous n'avez pas encore de site web.`;\n  offre = `Aujourd'hui, 87% des clients cherchent un restaurant en ligne avant de se déplacer. Sans site web, vous perdez des réservations chaque jour.`;\n  prix = pays === 'Cameroun' ? '150 000 FCFA' : '150€';\n} else if (secteur.includes('coiffure') || secteur.includes('parrucchiere') || secteur.includes('peluqueria') || secteur.includes('salon')) {\n  intro = `Bonjour,\\n\\nJ'ai trouvé *${nom}* sur Google Maps et j'ai remarqué que vous n'avez pas encore de site web.`;\n  offre = `Un site web vous permet d'accepter des réservations en ligne 24h/24, même quand vous êtes occupé(e). Vos clients peuvent réserver directement sans vous appeler.`;\n  prix = pays === 'Cameroun' ? '100 000 FCFA' : '120€';\n} else {\n  intro = `Bonjour,\\n\\nJ'ai trouvé *${nom}* sur Google Maps et j'ai remarqué que vous n'avez pas encore de présence web.`;\n  offre = `En 2026, ne pas avoir de site web, c'est comme ne pas exister pour des milliers de clients potentiels dans votre zone.`;\n  prix = pays === 'Cameroun' ? '120 000 FCFA' : '140€';\n}\n\nconst message = `${intro}\\n\\n${offre}\\n\\n✅ *Chez KEN Digital, on crée votre site en 7 jours à partir de ${prix}*, avec :\\n• Design professionnel sur mesure\\n• Réservation / contact en ligne\\n• Visibilité Google (SEO)\\n• Adapté mobile\\n\\nRépondez simplement *OUI* à ce message et je vous envoie une proposition gratuite sous 24h. 🙏\\n\\n— *Ken*\\nKEN Digital Innovations\\n📞 +237 654 270 447`;\n\nreturn [{\n  json: {\n    ...p,\n    message_wa: message,\n    prix: prix\n  }\n}];"
+      },
+      "id": "b1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Générer message personnalisé",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-wa",
+              "leftValue": "={{ $json['Téléphone WA'] }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "isNotEmpty" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b1b2c3d4-0005-0005-0005-000000000005",
+      "name": "A un numéro WhatsApp ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "from": "={{ $vars.TWILIO_WHATSAPP_NUMBER }}",
+        "to": "=whatsapp:{{ $json['Téléphone WA'] }}",
+        "message": "={{ $json.message_wa }}"
+      },
+      "id": "b1b2c3d4-0006-0006-0006-000000000006",
+      "name": "Envoyer WhatsApp (Twilio)",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [1340, 220],
+      "credentials": { "twilioApi": { "id": "twilio-creds", "name": "Twilio - KEN Digital" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-email",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "@",
+              "operator": { "type": "string", "operation": "contains" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b1b2c3d4-0007-0007-0007-000000000007",
+      "name": "A un email ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1340, 400]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Votre site web en 7 jours — offre pour {{ $json.Nom }}",
+        "emailType": "html",
+        "message": "=<html><body style=\"font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#333\">\n<h2 style=\"color:#0a6eba\">Bonjour,</h2>\n<p>J'ai trouvé <strong>{{ $json.Nom }}</strong> sur Google Maps et j'ai remarqué que vous n'avez pas encore de site web professionnel.</p>\n<p>En 2026, <strong>87% de vos clients potentiels</strong> cherchent en ligne avant de se déplacer. Un site web professionnel vous permet de :</p>\n<ul>\n<li>✅ Accepter des réservations 24h/24</li>\n<li>✅ Être trouvé sur Google dans votre ville</li>\n<li>✅ Montrer votre menu / catalogue / services</li>\n<li>✅ Recevoir des messages directement</li>\n</ul>\n<div style=\"background:#f0f8ff;padding:20px;border-radius:8px;margin:20px 0\">\n<h3 style=\"color:#0a6eba;margin-top:0\">Notre offre pour vous :</h3>\n<p><strong>Site web professionnel livré en 7 jours</strong><br>À partir de <strong>{{ $json.prix }}</strong> — tout compris</p>\n</div>\n<p>Répondez simplement à cet email avec <strong>\"OUI, je suis intéressé(e)\"</strong> et je vous envoie une proposition personnalisée et gratuite sous 24h.</p>\n<p>Cordialement,<br><strong>Ken</strong><br>KEN Digital Innovations<br>📞 +237 654 270 447<br>📧 olivierkedinta@gmail.com</p>\n<hr style=\"border:none;border-top:1px solid #eee\">\n<p style=\"font-size:11px;color:#999\">Vous recevez cet email car votre établissement apparaît sur Google Maps. Pour ne plus recevoir nos messages, répondez STOP.</p>\n</body></html>",
+        "options": {
+          "senderName": "Ken - KEN Digital Innovations",
+          "replyTo": "olivierkedinta@gmail.com"
+        }
+      },
+      "id": "b1b2c3d4-0008-0008-0008-000000000008",
+      "name": "Envoyer Email (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1560, 400],
+      "credentials": { "gmailOAuth2": { "id": "gmail-creds", "name": "Gmail - KEN Digital" } }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "sheetName": { "mode": "name", "value": "Prospects" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Statut": "CONTACTÉ",
+            "Canal": "=WhatsApp{{ $json.Email.includes('@') ? ' + Email' : '' }}",
+            "Date Contact": "={{ new Date().toISOString().split('T')[0] }}"
+          },
+          "schema": []
+        },
+        "where": {
+          "values": [{ "lookupColumn": "Nom", "lookupValue": "={{ $json.Nom }}" }]
+        },
+        "options": {}
+      },
+      "id": "b1b2c3d4-0009-0009-0009-000000000009",
+      "name": "Mettre à jour statut → CONTACTÉ",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": { "amount": 3000 },
+      "id": "b1b2c3d4-0010-0010-0010-000000000010",
+      "name": "Pause 3 secondes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2000, 300],
+      "webhookId": "wait-tirs-1"
+    }
+  ],
+  "connections": {
+    "Déclencheur 10h": { "main": [[{ "node": "Lire prospects NOUVEAU", "type": "main", "index": 0 }]] },
+    "Lire prospects NOUVEAU": { "main": [[{ "node": "Un prospect à la fois", "type": "main", "index": 0 }]] },
+    "Un prospect à la fois": { "main": [[{ "node": "Générer message personnalisé", "type": "main", "index": 0 }]] },
+    "Générer message personnalisé": { "main": [[{ "node": "A un numéro WhatsApp ?", "type": "main", "index": 0 }]] },
+    "A un numéro WhatsApp ?": {
+      "main": [
+        [{ "node": "Envoyer WhatsApp (Twilio)", "type": "main", "index": 0 }],
+        [{ "node": "A un email ?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Envoyer WhatsApp (Twilio)": { "main": [[{ "node": "A un email ?", "type": "main", "index": 0 }]] },
+    "A un email ?": {
+      "main": [
+        [{ "node": "Envoyer Email (Gmail)", "type": "main", "index": 0 }],
+        [{ "node": "Mettre à jour statut → CONTACTÉ", "type": "main", "index": 0 }]
+      ]
+    },
+    "Envoyer Email (Gmail)": { "main": [[{ "node": "Mettre à jour statut → CONTACTÉ", "type": "main", "index": 0 }]] },
+    "Mettre à jour statut → CONTACTÉ": { "main": [[{ "node": "Pause 3 secondes", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": [{ "name": "prospection" }]
+}

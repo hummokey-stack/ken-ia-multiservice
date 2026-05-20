@@ -1,0 +1,284 @@
+{
+  "name": "04 - RELANCES | Suivi J+2 et J+5",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "0 14 * * 1-6" }]
+        }
+      },
+      "id": "d1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Déclencheur 14h (Lun-Sam)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "readOrSearch",
+        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "sheetName": { "mode": "name", "value": "Prospects" },
+        "filtersUI": {
+          "values": [
+            { "lookupColumn": "Statut", "lookupValue": "CONTACTÉ" }
+          ]
+        },
+        "options": { "returnFirstMatch": false }
+      },
+      "id": "d1b2c3d4-0002-0002-0002-000000000002",
+      "name": "Lire prospects CONTACTÉ",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "d1b2c3d4-0003-0003-0003-000000000003",
+      "name": "Un prospect à la fois",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Calcule le nombre de jours depuis le contact initial\nconst p = $json;\nconst dateContact = p['Date Contact'] || '';\n\nif (!dateContact) {\n  return [{ json: { ...p, jours_ecoules: 0, doit_relancer: false } }];\n}\n\nconst today = new Date();\ntoday.setHours(0, 0, 0, 0);\n\nconst [year, month, day] = dateContact.split('-').map(Number);\nconst dc = new Date(year, month - 1, day);\ndc.setHours(0, 0, 0, 0);\n\nconst diff = Math.floor((today - dc) / (1000 * 60 * 60 * 24));\n\n// Relance à J+2 (1ère relance) ou J+5 (2ème relance)\nconst doit_relancer = diff === 2 || diff === 5;\nconst num_relance = diff === 2 ? 1 : (diff === 5 ? 2 : 0);\n\nreturn [{\n  json: {\n    ...p,\n    jours_ecoules: diff,\n    doit_relancer: doit_relancer,\n    num_relance: num_relance\n  }\n}];"
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Calculer jours depuis contact",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-relance",
+              "leftValue": "={{ $json.doit_relancer }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0005-0005-0005-000000000005",
+      "name": "Doit-on relancer ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const p = $json;\nconst nom = p.Nom || 'votre établissement';\nconst secteur = (p.Secteur || '').toLowerCase();\nconst pays = p.Pays || 'France';\nconst numRelance = p.num_relance || 1;\nconst joursEcoules = p.jours_ecoules || 2;\n\nlet msgRelance = '';\n\nif (numRelance === 1) {\n  // J+2 : relance douce\n  msgRelance = `Bonjour,\\n\\nJe me permets de revenir vers vous concernant *${nom}*.\\n\\nIl y a quelques jours, je vous ai envoyé un message au sujet de votre présence en ligne. Je voulais juste m'assurer que vous l'avez bien reçu.\\n\\nSi vous êtes intéressé(e) par la création de votre site web, je suis disponible pour répondre à toutes vos questions. Une simple réponse *OUI* suffit pour recevoir votre proposition personnalisée gratuitement.\\n\\n— *Ken*\\nKEN Digital Innovations\\n📞 +237 654 270 447`;\n} else {\n  // J+5 : dernière chance\n  const urgence = pays === 'Cameroun' ? '120 000 FCFA' : '140€';\n  const prix = secteur.includes('restaurant') || secteur.includes('ristorante') || secteur.includes('restaurante')\n    ? (pays === 'Cameroun' ? '150 000 FCFA' : '150€')\n    : secteur.includes('coiffure') || secteur.includes('salon') || secteur.includes('parrucchiere') || secteur.includes('peluqueria')\n    ? (pays === 'Cameroun' ? '100 000 FCFA' : '120€')\n    : urgence;\n\n  msgRelance = `Bonjour,\\n\\nC'est mon dernier message concernant *${nom}*.\\n\\nJe vous propose toujours un site web professionnel à partir de *${prix}*, livré en 7 jours.\\n\\n⚡ *Offre valable cette semaine uniquement* — Je prends en ce moment peu de nouveaux clients pour garantir la qualité.\\n\\nSi vous êtes intéressé(e), répondez *OUI* maintenant. Sinon, je ne vous contacterai plus.\\n\\nBonne continuation,\\n— *Ken*\\nKEN Digital Innovations\\n📞 +237 654 270 447`;\n}\n\nreturn [{\n  json: {\n    ...p,\n    message_relance: msgRelance\n  }\n}];"
+      },
+      "id": "d1b2c3d4-0006-0006-0006-000000000006",
+      "name": "Générer message de relance",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 220]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-wa-relance",
+              "leftValue": "={{ $json['Téléphone WA'] }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "isNotEmpty" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0007-0007-0007-000000000007",
+      "name": "A un numéro WhatsApp ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1560, 220]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "from": "={{ $vars.TWILIO_WHATSAPP_NUMBER }}",
+        "to": "=whatsapp:{{ $json['Téléphone WA'] }}",
+        "message": "={{ $json.message_relance }}"
+      },
+      "id": "d1b2c3d4-0008-0008-0008-000000000008",
+      "name": "Envoyer relance WhatsApp",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [1780, 140],
+      "credentials": { "twilioApi": { "id": "twilio-creds", "name": "Twilio - KEN Digital" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-email-relance",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "@",
+              "operator": { "type": "string", "operation": "contains" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0009-0009-0009-000000000009",
+      "name": "A un email ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1780, 320]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Re: Votre site web — relance pour {{ $json.Nom }}",
+        "emailType": "html",
+        "message": "=<html><body style=\"font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#333\">\n<h2 style=\"color:#0a6eba\">Bonjour,</h2>\n<p>Je me permets de revenir vers vous concernant <strong>{{ $json.Nom }}</strong>.</p>\n{{ $json.num_relance === 1 ? '<p>Il y a quelques jours, je vous ai envoyé un email au sujet de la création de votre site web professionnel. Je voulais juste vérifier que vous l\\'aviez bien reçu.</p><p>Si vous êtes intéressé(e), il vous suffit de répondre à cet email avec <strong>\"OUI\"</strong> pour recevoir votre proposition personnalisée et gratuite sous 24h.</p>' : '<p>C\\'est mon dernier message. Je vous propose toujours un site web professionnel livré en <strong>7 jours</strong>, à partir de <strong>' + $json.prix + '</strong> tout compris.</p><p><strong>⚡ Offre valable cette semaine uniquement</strong> — je prends peu de clients en ce moment pour garantir la qualité.</p><p>Répondez <strong>\"OUI, je suis intéressé(e)\"</strong> ou appelez-moi directement au +237 654 270 447.</p>' }}\n<p>Cordialement,<br><strong>Ken</strong><br>KEN Digital Innovations<br>📞 +237 654 270 447<br>📧 olivierkedinta@gmail.com</p>\n<hr style=\"border:none;border-top:1px solid #eee\">\n<p style=\"font-size:11px;color:#999\">Pour ne plus recevoir nos messages, répondez STOP.</p>\n</body></html>",
+        "options": {
+          "senderName": "Ken - KEN Digital Innovations",
+          "replyTo": "olivierkedinta@gmail.com"
+        }
+      },
+      "id": "d1b2c3d4-0010-0010-0010-000000000010",
+      "name": "Envoyer relance Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [2000, 320],
+      "credentials": { "gmailOAuth2": { "id": "gmail-creds", "name": "Gmail - KEN Digital" } }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "sheetName": { "mode": "name", "value": "Prospects" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Statut": "RELANCÉ",
+            "Notes": "={{ 'Relance ' + $json.num_relance + ' envoyée le ' + new Date().toISOString().split('T')[0] + ' (J+' + $json.jours_ecoules + ')' }}"
+          },
+          "schema": []
+        },
+        "where": {
+          "values": [{ "lookupColumn": "Nom", "lookupValue": "={{ $json.Nom }}" }]
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0011-0011-0011-000000000011",
+      "name": "Mettre à jour statut → RELANCÉ",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [2220, 220]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "cond-j5-fin",
+              "leftValue": "={{ $json.num_relance }}",
+              "rightValue": 2,
+              "operator": { "type": "number", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0012-0012-0012-000000000012",
+      "name": "C'est la 2ème relance (J+5) ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2440, 220]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "sheetName": { "mode": "name", "value": "Prospects" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Statut": "ARCHIVÉ",
+            "Notes": "={{ ($json.Notes || '') + ' | Archivé auto après J+5 sans réponse' }}"
+          },
+          "schema": []
+        },
+        "where": {
+          "values": [{ "lookupColumn": "Nom", "lookupValue": "={{ $json.Nom }}" }]
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0013-0013-0013-000000000013",
+      "name": "Archiver prospect sans réponse",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [2660, 140]
+    },
+    {
+      "parameters": { "amount": 3000 },
+      "id": "d1b2c3d4-0014-0014-0014-000000000014",
+      "name": "Pause 3 secondes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2660, 340],
+      "webhookId": "wait-relance-1"
+    }
+  ],
+  "connections": {
+    "Déclencheur 14h (Lun-Sam)": { "main": [[{ "node": "Lire prospects CONTACTÉ", "type": "main", "index": 0 }]] },
+    "Lire prospects CONTACTÉ": { "main": [[{ "node": "Un prospect à la fois", "type": "main", "index": 0 }]] },
+    "Un prospect à la fois": { "main": [[{ "node": "Calculer jours depuis contact", "type": "main", "index": 0 }]] },
+    "Calculer jours depuis contact": { "main": [[{ "node": "Doit-on relancer ?", "type": "main", "index": 0 }]] },
+    "Doit-on relancer ?": {
+      "main": [
+        [{ "node": "Générer message de relance", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Générer message de relance": { "main": [[{ "node": "A un numéro WhatsApp ?", "type": "main", "index": 0 }]] },
+    "A un numéro WhatsApp ?": {
+      "main": [
+        [{ "node": "Envoyer relance WhatsApp", "type": "main", "index": 0 }],
+        [{ "node": "A un email ?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Envoyer relance WhatsApp": { "main": [[{ "node": "A un email ?", "type": "main", "index": 0 }]] },
+    "A un email ?": {
+      "main": [
+        [{ "node": "Envoyer relance Email", "type": "main", "index": 0 }],
+        [{ "node": "Mettre à jour statut → RELANCÉ", "type": "main", "index": 0 }]
+      ]
+    },
+    "Envoyer relance Email": { "main": [[{ "node": "Mettre à jour statut → RELANCÉ", "type": "main", "index": 0 }]] },
+    "Mettre à jour statut → RELANCÉ": { "main": [[{ "node": "C'est la 2ème relance (J+5) ?", "type": "main", "index": 0 }]] },
+    "C'est la 2ème relance (J+5) ?": {
+      "main": [
+        [{ "node": "Archiver prospect sans réponse", "type": "main", "index": 0 }],
+        [{ "node": "Pause 3 secondes", "type": "main", "index": 0 }]
+      ]
+    },
+    "Archiver prospect sans réponse": { "main": [[{ "node": "Pause 3 secondes", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": [{ "name": "prospection" }]
+}
