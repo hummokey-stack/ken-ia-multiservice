@@ -941,6 +941,87 @@
     text-transform: uppercase;
   }
 
+  /* ---------- WHATSAPP POPUP ---------- */
+  .wa-fab {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 999;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+  }
+  .wa-bubble {
+    background: #fff;
+    border-radius: 16px 16px 0 16px;
+    box-shadow: 0 8px 32px oklch(0 0 0 / 0.18);
+    padding: 18px 20px;
+    width: 290px;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    animation: waFadeIn .25s ease;
+  }
+  .wa-bubble.open { display: flex; }
+  @keyframes waFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .wa-bubble-head {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .wa-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .wa-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: #111; }
+  .wa-status { font-size: 12px; color: #25d366; }
+  .wa-msg {
+    background: #f0f0f0;
+    border-radius: 0 12px 12px 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.5;
+  }
+  .wa-start {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #25d366;
+    color: #fff;
+    border: 0; border-radius: 999px;
+    padding: 11px 18px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .wa-start:hover { background: #128c7e; }
+  .wa-btn {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #25d366;
+    border: 0; cursor: pointer;
+    display: grid; place-items: center;
+    box-shadow: 0 6px 20px oklch(0 0 0 / 0.22);
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+  }
+  .wa-btn:hover { transform: scale(1.08); box-shadow: 0 10px 28px oklch(0 0 0 / 0.28); }
+  .wa-ping {
+    position: absolute; top: 2px; right: 2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #ff3b30;
+    border: 2px solid #fff;
+    animation: waPing 2s infinite;
+  }
+  @keyframes waPing {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+  }
+  .wa-close {
+    position: absolute; top: 12px; right: 14px;
+    background: none; border: 0; font-size: 18px;
+    color: #999; cursor: pointer; line-height: 1;
+  }
+
   /* ---------- LANG SWAP ---------- */
   body.lang-en .fr-primary { font-size: 0.62em; color: var(--fg-3); }
   body.lang-en .fr-primary, body.lang-en .en-secondary {  }
@@ -1497,8 +1578,8 @@
         Réserver un appel découverte
         <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
-      <a href="mailto:hello@ken-ia.com" class="btn-secondary">
-        hello@ken-ia.com
+      <a href="mailto:olivierkedinta@gmail.com" class="btn-secondary">
+        olivierkedinta@gmail.com
       </a>
     </div>
     <div class="cta-foot">
@@ -1509,6 +1590,35 @@
     </div>
   </div>
 </section>
+
+<!-- ================== WHATSAPP FAB ================== -->
+<div class="wa-fab" id="waFab">
+  <div class="wa-bubble" id="waBubble">
+    <button class="wa-close" id="waClose" aria-label="Fermer">×</button>
+    <div class="wa-bubble-head">
+      <div class="wa-avatar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <div>
+        <div class="wa-name">KEN Digital Innovations</div>
+        <div class="wa-status">● En ligne</div>
+      </div>
+    </div>
+    <div class="wa-msg">
+      Bonjour ! 👋<br>
+      Comment puis-je vous aider aujourd'hui ? Répondez-nous directement sur WhatsApp.
+    </div>
+    <a class="wa-start" href="https://wa.me/237654270447?text=Bonjour%2C%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20services." target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Démarrer la conversation
+    </a>
+  </div>
+
+  <button class="wa-btn" id="waBtn" aria-label="Contacter sur WhatsApp">
+    <span class="wa-ping"></span>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </button>
+</div>
 
 <!-- ================== FOOTER ================== -->
 <footer>
@@ -1527,8 +1637,9 @@
         </p>
         <div class="foot-addr">
           Douala, Cameroun<br>
-          hello@ken-ia.com<br>
-          +237 — — — — — —
+          olivierkedinta@gmail.com<br>
+          <a href="tel:+237654270447" style="color:inherit;text-decoration:none">+237 654 270 447</a><br>
+          <a href="tel:+237692105983" style="color:inherit;text-decoration:none">+237 692 105 983</a>
         </div>
       </div>
 
@@ -1578,6 +1689,19 @@
 </footer>
 
 <script>
+  // ---- WhatsApp popup ----
+  (function () {
+    const btn    = document.getElementById('waBtn');
+    const bubble = document.getElementById('waBubble');
+    const close  = document.getElementById('waClose');
+
+    btn.addEventListener('click', () => bubble.classList.toggle('open'));
+    close.addEventListener('click', (e) => { e.stopPropagation(); bubble.classList.remove('open'); });
+
+    // Ouvrir automatiquement après 6 secondes
+    setTimeout(() => bubble.classList.add('open'), 6000);
+  })();
+
   // ---- Hero Slider ----
   (function () {
     const track    = document.getElementById('sliderTrack');
