@@ -10,3 +10,6 @@ node_modules/
 
 # Logs
 *.log
+
+# Claude local settings (contient des secrets)
+.claude/settings.local.json

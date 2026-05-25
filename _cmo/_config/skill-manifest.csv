@@ -1,0 +1,4 @@
+name,description,command,phase,required,output_artifacts
+cmo-kickoff,Full marketing planning workflow — analyzes your product and generates strategy and tasks,/cmo-kickoff,1-planning,true,"product-profile.md;personas.md;voice-profile.md;strategy.md;tasks.md;launch-plan.md"
+cmo-help,What should I do next? Checks your marketing progress and recommends the next action,/cmo-help,any,false,
+cmo-task-guide,Break down any marketing task into a step-by-step actionable guide,/cmo-task-guide,2-execution,false,

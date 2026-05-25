@@ -1,0 +1,11 @@
+task_type,module_available,module_path,description
+tweet_thread,true,.claude/skills/cmo-kickoff/modules/tweet-writer.md,Generate tweet threads in founder's voice
+reddit_post,true,.claude/skills/cmo-kickoff/modules/reddit-writer.md,Generate Reddit posts for specific subreddits
+indie_hackers_post,false,,Guide only — no automated module yet
+email_sequence,false,,Guide only — no automated module yet
+tiktok_content,false,,Guide only — no automated module yet
+seo_content,false,,Guide only — no automated module yet
+landing_page_copy,false,,Guide only — no automated module yet
+product_hunt_launch,false,,Guide only — no automated module yet
+hacker_news_post,false,,Guide only — no automated module yet
+product_code_change,true,.claude/skills/cmo-kickoff/modules/code-change.md,Make marketing-related code changes (landing page copy CTAs sharing buttons meta tags)

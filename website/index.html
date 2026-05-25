@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" style="color-scheme: dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,6 +25,7 @@
 <meta name="twitter:title" content="KEN IA MULTISERVICE — L'IA qui transforme vos ambitions en résultats" />
 <meta name="twitter:description" content="Agence digitale spécialisée en création de sites web, intégration IA, automatisation et développement d'applications sur mesure." />
 <meta name="twitter:image" content="https://keniaagency.netlify.app/images/Gemini_Generated_Image_7sgqob7sgqob7sgq.webp" />
+<meta name="theme-color" content="#0d1821" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -61,6 +62,13 @@
     overflow-x: hidden;
   }
   ::selection { background: var(--accent); color: #0a0a0a; }
+
+  /* Focus visible — accessibilité clavier */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
   .grad-text {
     background: var(--accent-grad);
     -webkit-background-clip: text; background-clip: text;
@@ -151,7 +159,7 @@
     padding: 5px 12px;
     border-radius: 999px;
     cursor: pointer;
-    transition: all .2s;
+    transition: background .2s, color .2s;
   }
   .lang-toggle button.active {
     background: var(--fg);
@@ -1045,7 +1053,17 @@
 
   /* ---------- LANG SWAP ---------- */
   body.lang-en .fr-primary { font-size: 0.62em; color: var(--fg-3); }
-  body.lang-en .fr-primary, body.lang-en .en-secondary {  }
+
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .marquee-track { animation: none; }
+    .slider-track { transition: none; }
+  }
 
   /* ---------- HERO SLIDER ---------- */
   .hero-slider {
@@ -1144,10 +1162,10 @@
 <body>
 
 <!-- ================== NAV ================== -->
-<nav class="nav">
+<nav class="nav" aria-label="Navigation principale">
   <div class="container nav-inner">
     <a href="#" class="logo">
-      <img src="assets/ken-mark.png" alt="KEN" />
+      <img src="assets/ken-mark.png" alt="KEN" width="34" height="34" />
       <span class="logo-text">
         <strong>KEN <span class="grad-text">IA</span> MULTISERVICE</strong>
         <span class="logo-sub">DIGITAL INNOVATIONS</span>
@@ -1176,19 +1194,19 @@
 <section class="hero-slider" aria-label="Présentation des services">
   <div class="slider-track" id="sliderTrack">
     <div class="slide">
-      <img src="images/91a7e854-868e-41b2-852f-401fe6f95fb0.webp" alt="Analyse et optimisation des conversions" />
+      <img src="images/91a7e854-868e-41b2-852f-401fe6f95fb0.webp" alt="Analyse et optimisation des conversions" width="1920" height="1080" fetchpriority="high" />
     </div>
     <div class="slide">
-      <img src="images/a927f18a-6cdc-4d4e-a8ee-14a3b7ee47f3.webp" alt="Automatisation du marketing et du contenu" />
+      <img src="images/a927f18a-6cdc-4d4e-a8ee-14a3b7ee47f3.webp" alt="Automatisation du marketing et du contenu" width="1920" height="1080" loading="lazy" />
     </div>
     <div class="slide">
-      <img src="images/ca61a393-e492-4623-b0cd-b03b27cb88d4.webp" alt="Développement e-commerce personnalisé" />
+      <img src="images/ca61a393-e492-4623-b0cd-b03b27cb88d4.webp" alt="Développement e-commerce personnalisé" width="1920" height="1080" loading="lazy" />
     </div>
     <div class="slide">
-      <img src="images/Gemini_Generated_Image_twulhetwulhetwul.webp" alt="Systèmes Web et d'IA pour les entreprises établies" />
+      <img src="images/Gemini_Generated_Image_twulhetwulhetwul.webp" alt="Systèmes Web et d'IA pour les entreprises établies" width="1920" height="1080" loading="lazy" />
     </div>
     <div class="slide">
-      <img src="images/mk.webp" alt="NOS SERVICES : Développement Web, Intégration d'IA et Systèmes d'Information" />
+      <img src="images/mk.webp" alt="NOS SERVICES : Développement Web, Intégration d'IA et Systèmes d'Information" width="1920" height="1080" loading="lazy" />
     </div>
   </div>
 
@@ -1238,15 +1256,15 @@
   <div class="container">
     <div class="vs-grid">
       <div class="vs-item">
-        <img src="images/700fabee-417a-4d4f-8c92-3d31286c5350.webp" alt="Applications performantes et évolutives" />
+        <img src="images/700fabee-417a-4d4f-8c92-3d31286c5350.webp" alt="Applications performantes et évolutives" width="800" height="450" loading="lazy" />
         <div class="vs-label">Applications<em>Sur mesure & évolutives</em></div>
       </div>
       <div class="vs-item">
-        <img src="images/a7d4f42c-9dea-4cf3-8902-d783f879577f.webp" alt="Intégration de l'IA pour les entreprises" />
+        <img src="images/a7d4f42c-9dea-4cf3-8902-d783f879577f.webp" alt="Intégration de l'IA pour les entreprises" width="800" height="450" loading="lazy" />
         <div class="vs-label">Intégration IA<em>Dans vos flux réels</em></div>
       </div>
       <div class="vs-item">
-        <img src="images/1b0b8ff0-9a99-4bab-8c70-2efcc10bff3b.webp" alt="Systèmes Web et IA pour les entreprises établies" />
+        <img src="images/1b0b8ff0-9a99-4bab-8c70-2efcc10bff3b.webp" alt="Systèmes Web et IA pour les entreprises établies" width="800" height="450" loading="lazy" />
         <div class="vs-label">Systèmes Web & IA<em>Pour entreprises établies</em></div>
       </div>
     </div>
@@ -1270,7 +1288,7 @@
     <div class="services-grid">
       <!-- 01 -->
       <div class="service">
-        <img class="svc-bg-img" src="images/e91c8876-c05d-460d-ac4a-791c716f2efb.webp" alt="" aria-hidden="true" />
+        <img class="svc-bg-img" src="images/e91c8876-c05d-460d-ac4a-791c716f2efb.webp" alt="" aria-hidden="true" width="400" height="280" loading="lazy" />
         <div class="svc-num">01</div>
         <div class="svc-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -1281,12 +1299,12 @@
         <h3 class="svc-title">Création de sites web<span class="en">Website creation</span></h3>
         <p class="svc-desc">Vitrines, e-commerce et plateformes sur-mesure, optimisées pour la performance et le SEO.</p>
         <div class="svc-tags"><span class="svc-tag">VITRINE</span><span class="svc-tag">E-COMMERCE</span><span class="svc-tag">CUSTOM</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 02 -->
       <div class="service">
-        <img class="svc-bg-img" src="images/2b3fcbf8-a8aa-4a6a-aecd-98933cc08b46.webp" alt="" aria-hidden="true" />
+        <img class="svc-bg-img" src="images/2b3fcbf8-a8aa-4a6a-aecd-98933cc08b46.webp" alt="" aria-hidden="true" width="400" height="280" loading="lazy" />
         <div class="svc-num">02</div>
         <div class="svc-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -1297,12 +1315,12 @@
         <h3 class="svc-title">Développement d'applications<span class="en">App development</span></h3>
         <p class="svc-desc">Apps web, mobiles et SaaS robustes, évolutifs et conçus pour vos utilisateurs.</p>
         <div class="svc-tags"><span class="svc-tag">WEB</span><span class="svc-tag">MOBILE</span><span class="svc-tag">SAAS</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 03 -->
       <div class="service">
-        <img class="svc-bg-img" src="images/a7d4f42c-9dea-4cf3-8902-d783f879577f.webp" alt="" aria-hidden="true" />
+        <img class="svc-bg-img" src="images/a7d4f42c-9dea-4cf3-8902-d783f879577f.webp" alt="" aria-hidden="true" width="400" height="280" loading="lazy" />
         <div class="svc-num">03</div>
         <div class="svc-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -1313,7 +1331,7 @@
         <h3 class="svc-title">Intégration IA<span class="en">AI integration</span></h3>
         <p class="svc-desc">Chatbots intelligents, automatisations et IA générative connectées à vos outils existants.</p>
         <div class="svc-tags"><span class="svc-tag">CHATBOT</span><span class="svc-tag">RAG</span><span class="svc-tag">GENAI</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 04 -->
@@ -1328,12 +1346,12 @@
         <h3 class="svc-title">Automatisation des processus<span class="en">Process automation</span></h3>
         <p class="svc-desc">Transformation digitale et workflows automatisés pour éliminer les tâches répétitives.</p>
         <div class="svc-tags"><span class="svc-tag">RPA</span><span class="svc-tag">WORKFLOW</span><span class="svc-tag">CRM</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 05 -->
       <div class="service">
-        <img class="svc-bg-img" src="images/fb843743-5c86-4806-a9ac-209e6c0a0791.webp" alt="" aria-hidden="true" />
+        <img class="svc-bg-img" src="images/fb843743-5c86-4806-a9ac-209e6c0a0791.webp" alt="" aria-hidden="true" width="400" height="280" loading="lazy" />
         <div class="svc-num">05</div>
         <div class="svc-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -1344,7 +1362,7 @@
         <h3 class="svc-title">Réseaux sociaux & communautés<span class="en">Social media & communities</span></h3>
         <p class="svc-desc">Plateformes communautaires et gestion de présence sociale alimentée par l'IA.</p>
         <div class="svc-tags"><span class="svc-tag">COMMUNITY</span><span class="svc-tag">SOCIAL</span><span class="svc-tag">CMS</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 06 -->
@@ -1359,7 +1377,7 @@
         <h3 class="svc-title">Création de contenu IA<span class="en">AI content creation</span></h3>
         <p class="svc-desc">Posts, vidéos, copywriting et visuels générés et optimisés par IA pour votre marque.</p>
         <div class="svc-tags"><span class="svc-tag">COPY</span><span class="svc-tag">VIDEO</span><span class="svc-tag">DESIGN</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 07 -->
@@ -1373,7 +1391,7 @@
         <h3 class="svc-title">Stratégie & conseil digital<span class="en">Digital strategy & consulting</span></h3>
         <p class="svc-desc">Audit, feuille de route et accompagnement pour cadrer votre transformation digitale.</p>
         <div class="svc-tags"><span class="svc-tag">AUDIT</span><span class="svc-tag">ROADMAP</span><span class="svc-tag">GROWTH</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
 
       <!-- 08 -->
@@ -1388,7 +1406,7 @@
         <h3 class="svc-title">Maintenance & sécurité<span class="en">Maintenance & security</span></h3>
         <p class="svc-desc">Support continu, monitoring, sauvegardes et hardening sécurité pour vos solutions.</p>
         <div class="svc-tags"><span class="svc-tag">24/7</span><span class="svc-tag">MONITORING</span><span class="svc-tag">SECURITY</span></div>
-        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        <svg class="svc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </div>
     </div>
   </div>
@@ -1560,19 +1578,19 @@
     </div>
     <div class="ps-grid">
       <div class="ps-item">
-        <img src="images/27d804ba-3d25-4f6c-81f2-a2f087be224d.webp" alt="Plateforme communautaire KEN" />
+        <img src="images/27d804ba-3d25-4f6c-81f2-a2f087be224d.webp" alt="Plateforme communautaire KEN" width="600" height="450" loading="lazy" />
         <span class="ps-tag">Réseau social</span>
       </div>
       <div class="ps-item">
-        <img src="images/Gemini_Generated_Image_7sgqob7sgqob7sgq.webp" alt="Community management KEN" />
+        <img src="images/Gemini_Generated_Image_7sgqob7sgqob7sgq.webp" alt="Community management KEN" width="600" height="450" loading="lazy" />
         <span class="ps-tag">Community</span>
       </div>
       <div class="ps-item">
-        <img src="images/3bff98be-84ed-44d4-b7fc-395163fbea53.webp" alt="Plateformes collaboratives" />
+        <img src="images/3bff98be-84ed-44d4-b7fc-395163fbea53.webp" alt="Plateformes collaboratives" width="600" height="450" loading="lazy" />
         <span class="ps-tag">Collaboration</span>
       </div>
       <div class="ps-item">
-        <img src="images/a29e3bd5-9768-42f9-9954-a003c7ebdf29.webp" alt="Développement full stack" />
+        <img src="images/a29e3bd5-9768-42f9-9954-a003c7ebdf29.webp" alt="Développement full stack" width="600" height="450" loading="lazy" />
         <span class="ps-tag">Full Stack</span>
       </div>
     </div>
@@ -1599,8 +1617,8 @@
         Réserver un appel découverte
         <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
-      <a href="mailto:olivierkedinta@gmail.com" class="btn-secondary">
-        olivierkedinta@gmail.com
+      <a href="mailto:hummokey@gmail.com" class="btn-secondary" aria-label="Envoyer un email à KEN IA MULTISERVICE">
+        hummokey@gmail.com
       </a>
     </div>
     <div class="cta-foot">
@@ -1647,7 +1665,7 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <a href="#" class="logo" style="margin-bottom:20px">
-          <img src="assets/ken-mark.png" alt="KEN" style="height:40px" />
+          <img src="assets/ken-mark.png" alt="KEN" width="40" height="40" style="height:40px" />
           <span class="logo-text">
             <strong>KEN <span class="grad-text">IA</span> MULTISERVICE</strong>
             <span class="logo-sub">DIGITAL INNOVATIONS</span>
@@ -1658,7 +1676,7 @@
         </p>
         <div class="foot-addr">
           Douala, Cameroun<br>
-          olivierkedinta@gmail.com<br>
+          hummokey@gmail.com<br>
           <a href="tel:+237654270447" style="color:inherit;text-decoration:none">+237 654 270 447</a><br>
           <a href="tel:+237692105983" style="color:inherit;text-decoration:none">+237 692 105 983</a>
         </div>

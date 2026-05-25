@@ -1,0 +1,16 @@
+# AI CMO Configuration
+# Populated during /cmo-kickoff step-01
+
+product_name: ""
+product_url: ""
+product_stage: "pre-launch"        # pre-launch | just-launched | growing
+
+user_name: ""
+communication_language: "English"
+document_output_language: "English"
+
+output_folder: "{project-root}/_cmo-output"
+
+# Code change settings (populated during step-02 if codebase option chosen)
+code_change_mode: ""    # always-ask | never-touch-code | always-make-changes
+git_mode: ""            # never-commit | commit-only | commit-and-push-pr

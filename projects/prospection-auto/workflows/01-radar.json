@@ -43,7 +43,7 @@
         "queryParameters": {
           "parameters": [
             { "name": "query", "value": "={{ $json.sector }} {{ $json.city }} {{ $json.country }}" },
-            { "name": "key", "value": "={{ $vars.GOOGLE_PLACES_API_KEY }}" },
+            { "name": "key", "value": "={{ $env.GOOGLE_PLACES_API_KEY }}" },
             { "name": "language", "value": "={{ $json.lang }}" }
           ]
         },
@@ -97,7 +97,7 @@
           "parameters": [
             { "name": "place_id", "value": "={{ $json.place_id }}" },
             { "name": "fields", "value": "name,formatted_phone_number,international_phone_number,website,email" },
-            { "name": "key", "value": "={{ $vars.GOOGLE_PLACES_API_KEY }}" }
+            { "name": "key", "value": "={{ $env.GOOGLE_PLACES_API_KEY }}" }
           ]
         },
         "options": {}
@@ -144,7 +144,7 @@
     {
       "parameters": {
         "operation": "append",
-        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "documentId": { "mode": "id", "value": "={{ $env.GOOGLE_SHEET_ID }}" },
         "sheetName": { "mode": "name", "value": "Prospects" },
         "columns": {
           "mappingMode": "defineBelow",

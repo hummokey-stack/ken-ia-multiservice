@@ -16,7 +16,7 @@
     {
       "parameters": {
         "operation": "readOrSearch",
-        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "documentId": { "mode": "id", "value": "={{ $env.GOOGLE_SHEET_ID }}" },
         "sheetName": { "mode": "name", "value": "Prospects" },
         "filtersUI": {
           "values": [
@@ -111,7 +111,7 @@
     {
       "parameters": {
         "operation": "create",
-        "from": "={{ $vars.TWILIO_WHATSAPP_NUMBER }}",
+        "from": "={{ $env.TWILIO_WHATSAPP_NUMBER }}",
         "to": "=whatsapp:{{ $json['Téléphone WA'] }}",
         "message": "={{ $json.message_relance }}"
       },
@@ -165,7 +165,7 @@
     {
       "parameters": {
         "operation": "update",
-        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "documentId": { "mode": "id", "value": "={{ $env.GOOGLE_SHEET_ID }}" },
         "sheetName": { "mode": "name", "value": "Prospects" },
         "columns": {
           "mappingMode": "defineBelow",
@@ -211,7 +211,7 @@
     {
       "parameters": {
         "operation": "update",
-        "documentId": { "mode": "id", "value": "={{ $vars.GOOGLE_SHEET_ID }}" },
+        "documentId": { "mode": "id", "value": "={{ $env.GOOGLE_SHEET_ID }}" },
         "sheetName": { "mode": "name", "value": "Prospects" },
         "columns": {
           "mappingMode": "defineBelow",
