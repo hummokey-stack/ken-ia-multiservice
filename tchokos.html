@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TCHOKOS — The Best, Made in Africa</title>
+<title>TCHOKOS SARL — The Best, Made in Africa | Douala</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -11,12 +11,12 @@
 *{ box-sizing:border-box; margin:0; padding:0; }
 :root{
   --ink:#0b0b0d; --ink2:#141318; --paper:#f5f2ec; --muted:#9a958c;
-  --gold:#c8a86b; --green:#25d366;
+  --gold:#c8a86b; --green:#25d366; --red:#e74c3c;
 }
 html,body{ height:100%; }
 body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper); overflow:hidden; -webkit-font-smoothing:antialiased; }
 
-/* ---------- HERO SHELL ---------- */
+/* ---------- HERO ---------- */
 .hero{ position:relative; height:100vh; width:100%; overflow:hidden; isolation:isolate; }
 .hero::before{
   content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -32,34 +32,65 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E"); }
 
 /* ---------- TOP BAR ---------- */
-.topbar{ position:absolute; top:0; left:0; right:0; z-index:20;
+.topbar{
+  position:absolute; top:0; left:0; right:0; z-index:20;
   display:flex; align-items:center; justify-content:space-between;
-  padding:20px clamp(20px,5vw,64px); }
+  padding:18px clamp(16px,4vw,56px);
+}
 
-.brand{ display:flex; align-items:center; gap:13px; text-decoration:none; }
+/* Logo + identité */
+.brand{ display:flex; align-items:center; gap:14px; text-decoration:none; }
 .brand-logo{
-  width:54px; height:54px; border-radius:50%; overflow:hidden; flex-shrink:0;
+  width:52px; height:52px; border-radius:50%; overflow:hidden; flex-shrink:0;
   border:1.5px solid rgba(200,168,107,.45);
-  box-shadow:0 0 18px rgba(200,168,107,.2), 0 0 0 3px rgba(200,168,107,.08);
+  box-shadow:0 0 20px rgba(200,168,107,.2), 0 0 0 3px rgba(200,168,107,.07);
 }
 .brand-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.brand-text{ line-height:1.1; }
+.brand-text{ line-height:1.15; }
 .brand-name{
   display:block; font-weight:800; font-size:17px; letter-spacing:2.5px; text-transform:uppercase;
   background:linear-gradient(135deg,#e7cf9d,var(--gold));
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
 }
-.brand-tag{ display:block; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-top:1px; }
+.brand-sarl{ display:block; font-size:9.5px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-top:1px; }
+.brand-slogan{
+  display:none; /* visible seulement desktop large */
+}
 
-.topnav{ display:flex; gap:30px; }
-.topnav a{ color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; letter-spacing:.5px; transition:.25s; }
+/* Slogan central desktop */
+.slogan-bar{
+  position:absolute; left:50%; transform:translateX(-50%);
+  font-size:11px; letter-spacing:3px; text-transform:uppercase;
+  color:rgba(200,168,107,.55); font-weight:500; white-space:nowrap;
+  pointer-events:none;
+}
+.slogan-bar span{ color:rgba(200,168,107,.8); font-weight:600; }
+
+/* Nav */
+.topnav{ display:flex; align-items:center; gap:28px; }
+.topnav a{ color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500; letter-spacing:.5px; transition:.25s; }
 .topnav a:hover{ color:var(--paper); }
+
+/* ---------- BANNIÈRE CONCEPT MARTEAU ---------- */
+.marteau-bar{
+  position:absolute; top:82px; left:0; right:0; z-index:18;
+  display:flex; align-items:center; justify-content:center;
+  gap:10px; pointer-events:none;
+}
+.marteau-pill{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(231,76,60,.12); backdrop-filter:blur(8px);
+  border:1px solid rgba(231,76,60,.35);
+  color:#f5b7b1; font-size:11px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; padding:7px 18px; border-radius:50px;
+  box-shadow:0 0 20px rgba(231,76,60,.15);
+}
+.marteau-pill .m{ font-size:14px; }
 
 /* ---------- SWIPER ---------- */
 .heroSwiper{ position:absolute; inset:0; z-index:2; }
 .swiper-slide{ position:relative; display:flex; align-items:center; overflow:hidden; }
 
-/* mot géant en filigrane */
 .bgword{
   position:absolute; top:50%; left:50%; transform:translate(-50%,-54%);
   z-index:1; white-space:nowrap;
@@ -87,9 +118,16 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
 .price{ font-size:34px; font-weight:600; letter-spacing:-.01em; }
 .price small{ font-size:15px; font-weight:400; color:var(--muted); margin-left:4px; letter-spacing:1px; }
 
+/* Localisation sous le prix */
+.location-tag{
+  font-size:11px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;
+  display:flex; align-items:center; gap:5px;
+}
+.location-tag::before{ content:'📍'; font-size:12px; }
+
 /* ----- bouton WhatsApp ----- */
 .wa-btn{
-  display:inline-flex; align-items:center; gap:12px; text-decoration:none; cursor:pointer;
+  display:inline-flex; align-items:center; gap:12px; text-decoration:none;
   background:var(--green); color:#062b14; font-weight:600; font-size:16px; letter-spacing:.3px;
   padding:16px 28px; border-radius:50px;
   transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
@@ -97,7 +135,7 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
 }
 .wa-btn:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 20px 50px -12px rgba(37,211,102,.75); }
 .wa-btn svg{ width:22px; height:22px; fill:#062b14; flex-shrink:0; }
-.wa-sub{ display:block; font-size:12px; letter-spacing:2px; color:var(--muted); margin-top:16px; text-transform:uppercase; }
+.wa-sub{ display:block; font-size:11.5px; letter-spacing:2px; color:var(--muted); margin-top:14px; text-transform:uppercase; }
 
 /* ----- visuel chaussure ----- */
 .slide-visual{ position:relative; display:grid; place-items:center; min-height:60vh; }
@@ -128,30 +166,28 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
   box-shadow:0 0 24px rgba(200,168,107,.25);
 }
 
-/* ---------- ANIMATIONS ---------- */
-@keyframes fadeUp{
-  from{ opacity:0; transform:translateY(34px); }
-  to{ opacity:1; transform:none; }
+/* ---------- MENTION FONDATEUR (bas gauche) ---------- */
+.founder-tag{
+  position:absolute; left:clamp(20px,5vw,64px); bottom:80px; z-index:15;
+  pointer-events:none;
 }
+.founder-tag p{
+  font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(154,149,140,.5);
+  line-height:1.6;
+}
+.founder-tag strong{ color:rgba(200,168,107,.55); }
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(34px); } to{ opacity:1; transform:none; } }
 @keyframes wordIn{
   from{ opacity:0; transform:translate(-50%,-54%) scale(1.08); letter-spacing:.06em; }
   to{ opacity:1; transform:translate(-50%,-54%) scale(1); }
 }
-@keyframes badgeIn{
-  from{ opacity:0; transform:translateY(-12px) scale(.9); }
-  to{ opacity:1; transform:none; }
-}
-@keyframes kenburns{
-  from{ transform:scale(1) translateY(0); }
-  to{ transform:scale(1.1) translateY(-2%); }
-}
+@keyframes badgeIn{ from{ opacity:0; transform:translateY(-12px) scale(.9); } to{ opacity:1; transform:none; } }
+@keyframes kenburns{ from{ transform:scale(1) translateY(0); } to{ transform:scale(1.1) translateY(-2%); } }
 
-.swiper-slide .bgword,
-.swiper-slide .eyebrow,
-.swiper-slide .pname,
-.swiper-slide .pdesc,
-.swiper-slide .meta,
-.swiper-slide .wa-wrap,
+.swiper-slide .bgword, .swiper-slide .eyebrow, .swiper-slide .pname,
+.swiper-slide .pdesc, .swiper-slide .meta, .swiper-slide .wa-wrap,
 .swiper-slide .badge{ opacity:0; }
 .swiper-slide .shoe-zoom{ transform:scale(1); }
 
@@ -168,7 +204,7 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
 .hero-bottom{
   position:absolute; left:0; right:0; bottom:0; z-index:15;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 clamp(20px,5vw,64px) 34px; pointer-events:none;
+  padding:0 clamp(20px,5vw,64px) 30px; pointer-events:none;
 }
 .hero-pagination{ display:flex; gap:10px; pointer-events:auto; }
 .hero-pagination .swiper-pagination-bullet{
@@ -196,29 +232,33 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
 /* ---------- RESPONSIVE ---------- */
 @media(max-width:900px){
   .topnav{ display:none; }
+  .slogan-bar{ display:none; }
+  .marteau-bar{ top:74px; }
   .slide-grid{ grid-template-columns:1fr; text-align:center; gap:0; }
   .slide-text{ order:2; max-width:100%; padding-bottom:30px; }
   .eyebrow{ justify-content:center; }
   .meta{ justify-content:center; }
+  .location-tag{ justify-content:center; }
   .pdesc{ margin-left:auto; margin-right:auto; }
   .slide-visual{ order:1; min-height:46vh; margin-top:60px; }
   .shoe{ width:min(78%,420px); }
   .hero-arrows{ display:none; }
   .bgword{ font-size:34vw; transform:translate(-50%,-62%); }
   .badge{ top:4%; }
+  .founder-tag{ display:none; }
 }
 @media(max-width:520px){
-  .brand-logo{ width:44px; height:44px; }
+  .brand-logo{ width:42px; height:42px; }
   .brand-name{ font-size:14px; }
   .pname{ font-size:30px; }
-  .price{ font-size:28px; }
-  .wa-btn{ font-size:15px; padding:15px 22px; }
-  .slide-visual{ min-height:40vh; }
+  .price{ font-size:26px; }
+  .wa-btn{ font-size:15px; padding:14px 20px; }
+  .slide-visual{ min-height:38vh; }
+  .marteau-pill{ font-size:10px; letter-spacing:2px; padding:6px 14px; }
 }
 </style>
 </head>
 <body>
-
 <div class="hero">
   <div class="grain"></div>
 
@@ -230,15 +270,29 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
       </div>
       <div class="brand-text">
         <span class="brand-name">TCHOKOS</span>
-        <span class="brand-tag">The Best · Made in Africa</span>
+        <span class="brand-sarl">SARL · Douala, Cameroun · est. 2021</span>
       </div>
     </a>
+
+    <!-- Slogan centré sur desktop -->
+    <div class="slogan-bar">
+      « <span>C'est difficile</span> mais c'est possible »
+    </div>
+
     <nav class="topnav">
       <a href="#">Nouveautés</a>
       <a href="#">Collection</a>
       <a href="#">Contact</a>
     </nav>
   </header>
+
+  <!-- ══ CONCEPT MARTEAU ══ -->
+  <div class="marteau-bar">
+    <div class="marteau-pill">
+      <span class="m">🔨</span>
+      ON CASSE LE PRIX AU MARTEAU
+    </div>
+  </div>
 
   <!-- ══ SLIDER ══ -->
   <div class="swiper heroSwiper">
@@ -253,19 +307,20 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
             <h1 class="pname">Nike<br />Glow Edition</h1>
             <p class="pdesc">Lumière orange, énergie brûlante. La sneaker qui illumine chaque pas, du terrain à la rue.</p>
             <div class="meta">
-              <span class="price">25 000<small>FCFA</small></span>
+              <div>
+                <span class="price">25 000<small>FCFA</small></span>
+                <span class="location-tag">Douala · Livraison Cameroun</span>
+              </div>
             </div>
             <div class="wa-wrap">
               <a class="wa-btn"
                  data-name="Nike Glow Edition"
                  data-price="25 000 FCFA"
-                 href="#"
-                 target="_blank"
-                 rel="noopener">
+                 href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.044zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.017-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 Commander sur WhatsApp
               </a>
-              <span class="wa-sub">Livraison rapide · Paiement à la livraison</span>
+              <span class="wa-sub">Paiement à la livraison · Marché Chinois, Douala</span>
             </div>
           </div>
           <div class="slide-visual">
@@ -289,19 +344,20 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
             <h1 class="pname">Adidas<br />Neon Boost</h1>
             <p class="pdesc">Coloris néon explosifs, semelle ultra-rebondissante. Pour ceux qui refusent de passer inaperçus.</p>
             <div class="meta">
-              <span class="price">22 000<small>FCFA</small></span>
+              <div>
+                <span class="price">22 000<small>FCFA</small></span>
+                <span class="location-tag">Douala · Livraison Cameroun</span>
+              </div>
             </div>
             <div class="wa-wrap">
               <a class="wa-btn"
                  data-name="Adidas Neon Boost"
                  data-price="22 000 FCFA"
-                 href="#"
-                 target="_blank"
-                 rel="noopener">
+                 href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.044zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.017-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 Commander sur WhatsApp
               </a>
-              <span class="wa-sub">Livraison rapide · Paiement à la livraison</span>
+              <span class="wa-sub">Paiement à la livraison · Marché Chinois, Douala</span>
             </div>
           </div>
           <div class="slide-visual">
@@ -324,19 +380,20 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
             <h1 class="pname">Nike Air Max<br />Crystal Gold</h1>
             <p class="pdesc">Corps cristal, accents or pur. Une œuvre d'art à porter — l'ultime déclaration de style.</p>
             <div class="meta">
-              <span class="price">35 000<small>FCFA</small></span>
+              <div>
+                <span class="price">35 000<small>FCFA</small></span>
+                <span class="location-tag">Douala · Livraison Cameroun</span>
+              </div>
             </div>
             <div class="wa-wrap">
               <a class="wa-btn"
                  data-name="Nike Air Max Crystal Gold"
                  data-price="35 000 FCFA"
-                 href="#"
-                 target="_blank"
-                 rel="noopener">
+                 href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.044zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.017-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 Commander sur WhatsApp
               </a>
-              <span class="wa-sub">Livraison rapide · Paiement à la livraison</span>
+              <span class="wa-sub">Paiement à la livraison · Marché Chinois, Douala</span>
             </div>
           </div>
           <div class="slide-visual">
@@ -354,29 +411,35 @@ body{ font-family:'Poppins',sans-serif; background:var(--ink); color:var(--paper
     </div>
   </div>
 
-  <!-- flèches -->
+  <!-- Flèches -->
   <div class="hero-arrows">
     <button class="prev" aria-label="Précédent">↑</button>
     <button class="next" aria-label="Suivant">↓</button>
   </div>
 
-  <!-- bas : pagination + compteur -->
+  <!-- Pagination + compteur -->
   <div class="hero-bottom">
     <div class="hero-pagination"></div>
     <div class="counter"><b id="cur">01</b> / 03</div>
+  </div>
+
+  <!-- Mention fondateur -->
+  <div class="founder-tag">
+    <p>Fondé par <strong>Tchokale Toko Ludovic</strong> · Douala, Littoral</p>
+    <p>« C'est difficile mais c'est possible »</p>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-/* ══ NUMÉROS WHATSAPP TCHOKOS ══ */
-const WA_PRINCIPAL = '237688094767'; // +237 6 88 09 47 67 — Facebook officiel
-const WA_CONTACT   = '237688696508'; // +237 6 88 69 65 08 — page Facebook Tchokos SARL
+/* ══ TCHOKOS SARL — NUMÉROS WHATSAPP ══ */
+const WA_PRINCIPAL = '237688094767'; // +237 6 88 09 47 67
+const WA_CONTACT   = '237688696508'; // +237 6 88 69 65 08
 
 document.querySelectorAll('.wa-btn').forEach(btn => {
   const name  = btn.dataset.name;
   const price = btn.dataset.price;
-  const msg   = `Bonjour TCHOKOS 👟\nJe veux commander : *${name}* (${price})\nMerci de confirmer la disponibilité et la livraison.`;
+  const msg   = `Bonjour Tchokos SARL 👟\nJe veux commander : *${name}* (${price})\nDouala — Merci de confirmer disponibilité et livraison.`;
   btn.href    = `https://wa.me/${WA_PRINCIPAL}?text=${encodeURIComponent(msg)}`;
 });
 
