@@ -314,40 +314,154 @@ section{ padding:clamp(60px,8vh,100px) clamp(16px,5vw,80px); }
 .section-desc{ color:var(--muted); font-size:15px; line-height:1.65; margin-top:12px; max-width:520px; margin-left:auto; margin-right:auto; }
 
 /* ══════════════════════════════════════════
-   CATÉGORIES
+   CATÉGORIES — style futuriste néon cyan
 ══════════════════════════════════════════ */
-.cats{ background:var(--ink2); }
+.cats{
+  position:relative; overflow:hidden;
+  background:#040810;
+  padding:clamp(70px,9vh,110px) clamp(16px,5vw,80px);
+}
+
+/* Lignes géométriques diagonales néon */
+.cats::before{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(0,200,255,.04) 50%, transparent 60%),
+    linear-gradient(45deg,  transparent 30%, rgba(0,180,255,.03) 45%, transparent 55%);
+}
+.cats-neon-lines{
+  position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+}
+.cats-neon-lines::before{
+  content:'';
+  position:absolute; top:-10%; left:-5%; right:-5%; bottom:-10%;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0px,
+      transparent 38px,
+      rgba(0,210,255,.045) 38px,
+      rgba(0,210,255,.045) 40px
+    );
+}
+.cats-neon-lines::after{
+  content:'';
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 75% 50%, rgba(0,180,255,.08), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,100,255,.05), transparent 60%);
+}
+
+/* Formes géométriques coins */
+.cats-geo{
+  position:absolute; z-index:1; pointer-events:none;
+}
+.cats-geo-tr{
+  top:-10px; right:-10px; width:180px; height:180px;
+  border:1.5px solid rgba(0,210,255,.2);
+  clip-path:polygon(100% 0, 100% 100%, 0 0);
+  box-shadow:inset 0 0 30px rgba(0,210,255,.06);
+}
+.cats-geo-bl{
+  bottom:-10px; left:-10px; width:140px; height:140px;
+  border:1.5px solid rgba(0,180,255,.15);
+  clip-path:polygon(0 0, 100% 100%, 0 100%);
+}
+/* Stripe diagonale néon */
+.cats-stripe{
+  position:absolute; z-index:1; pointer-events:none;
+  width:3px; background:linear-gradient(to bottom, transparent, rgba(0,210,255,.7), transparent);
+  box-shadow:0 0 12px 2px rgba(0,210,255,.5);
+  height:60%; top:20%;
+}
+.cats-stripe-1{ left:calc(33% - 1px); transform:rotate(-12deg); }
+.cats-stripe-2{ left:calc(66% - 1px); transform:rotate(-12deg); opacity:.6; }
+
+/* Header section */
+.cats .section-header{ position:relative; z-index:2; }
+.cats .section-label{ color:#00d4ff; }
+.cats .section-label::before,.cats .section-label::after{ background:#00d4ff; }
+.cats .section-title{
+  font-size:clamp(32px,5vw,58px);
+  background:linear-gradient(135deg, #fff 30%, #00d4ff 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.cats .section-desc{ color:rgba(154,190,220,.7); }
+
+/* Badge promo circulaire style image */
+.cats-promo-badge{
+  position:absolute; top:clamp(16px,3vh,32px); right:clamp(16px,4vw,60px); z-index:3;
+  width:clamp(80px,10vw,110px); height:clamp(80px,10vw,110px); border-radius:50%;
+  border:2px solid #00d4ff;
+  box-shadow:0 0 20px rgba(0,212,255,.5), inset 0 0 20px rgba(0,212,255,.08);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:rgba(0,20,40,.8); backdrop-filter:blur(8px);
+  animation:pulse-ring 2.5s ease-in-out infinite;
+}
+.cats-promo-badge::before{
+  content:''; position:absolute; inset:-6px; border-radius:50%;
+  border:1px solid rgba(0,212,255,.25);
+}
+@keyframes pulse-ring{
+  0%,100%{ box-shadow:0 0 16px rgba(0,212,255,.5), inset 0 0 16px rgba(0,212,255,.08); }
+  50%{ box-shadow:0 0 30px rgba(0,212,255,.8), inset 0 0 20px rgba(0,212,255,.15); }
+}
+.cats-promo-n{ font-size:clamp(18px,3vw,28px); font-weight:800; color:#00d4ff; line-height:1; }
+.cats-promo-l{ font-size:clamp(7px,1vw,10px); letter-spacing:1.5px; text-transform:uppercase; color:rgba(0,212,255,.8); font-weight:600; margin-top:2px; }
+
+/* Grille cartes */
 .cats-grid{
   display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1200px; margin:0 auto;
+  position:relative; z-index:2;
 }
 .cat-card{
-  position:relative; border-radius:20px; overflow:hidden;
-  background:var(--ink3); border:1px solid var(--border);
-  padding:40px 32px 36px; cursor:pointer;
+  position:relative; border-radius:16px; overflow:hidden;
+  background:rgba(5,15,30,.7); backdrop-filter:blur(12px);
+  border:1px solid rgba(0,180,255,.2);
+  padding:36px 28px 32px; cursor:pointer;
   transition:transform .3s cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .3s;
-  display:flex; flex-direction:column; align-items:flex-start; gap:12px; min-height:220px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:12px; min-height:210px;
 }
-.cat-card:hover{ transform:translateY(-6px); border-color:rgba(200,168,107,.4); box-shadow:0 20px 50px -15px rgba(0,0,0,.6); }
-.cat-card:focus-visible{ outline:2px solid var(--gold); outline-offset:4px; }
-.cat-emoji{ font-size:40px; line-height:1; }
-.cat-label{ font-size:22px; font-weight:700; letter-spacing:-.01em; }
-.cat-sub{ font-size:13px; color:var(--muted); font-weight:400; }
-.cat-arrow{
-  position:absolute; bottom:28px; right:28px;
-  width:38px; height:38px; border-radius:50%;
-  border:1px solid rgba(200,168,107,.35); display:grid; place-items:center;
-  color:var(--gold); font-size:16px;
-  transition:background .25s, transform .25s;
+.cat-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(0,210,255,.6);
+  box-shadow:0 0 30px rgba(0,210,255,.2), 0 20px 40px -15px rgba(0,0,0,.7);
 }
-.cat-card:hover .cat-arrow{ background:var(--gold); color:#1a1408; transform:translateX(4px); }
-.cat-card.homme{ --accent:#4a90e2; }
-.cat-card.femme{ --accent:#e2728a; }
-.cat-card.enfant{ --accent:#7bc67e; }
+.cat-card:focus-visible{ outline:2px solid #00d4ff; outline-offset:4px; }
+
+/* Scanline interne */
+.cat-card::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg,
+    transparent 0%, rgba(0,180,255,.02) 50%, transparent 100%);
+}
+/* Coin néon */
 .cat-card::before{
   content:''; position:absolute; top:0; right:0;
-  width:120px; height:120px; border-radius:50%;
-  background:radial-gradient(circle, var(--accent,var(--gold)) 0%, transparent 70%);
-  opacity:.07; transform:translate(30%,-30%);
+  width:60px; height:60px; pointer-events:none;
+  border-top:2px solid rgba(0,210,255,.5);
+  border-right:2px solid rgba(0,210,255,.5);
+  border-radius:0 16px 0 0;
+}
+.cat-card:hover::before{ border-color:rgba(0,210,255,.9); }
+
+.cat-emoji{ font-size:36px; line-height:1; filter:drop-shadow(0 0 10px rgba(0,210,255,.4)); }
+.cat-label{
+  font-size:22px; font-weight:800; letter-spacing:.5px; text-transform:uppercase;
+  color:#fff;
+}
+.cat-sub{ font-size:12px; color:rgba(154,190,220,.65); font-weight:400; letter-spacing:.5px; }
+.cat-arrow{
+  position:absolute; bottom:24px; right:24px;
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(0,210,255,.4); display:grid; place-items:center;
+  color:#00d4ff; font-size:15px;
+  transition:background .25s, transform .25s, box-shadow .25s;
+}
+.cat-card:hover .cat-arrow{
+  background:#00d4ff; color:#020d1a;
+  transform:translateX(4px);
+  box-shadow:0 0 16px rgba(0,210,255,.6);
 }
 
 /* ══════════════════════════════════════════
@@ -761,11 +875,25 @@ footer{
 
 <!-- ══ CATÉGORIES ══ -->
 <section class="cats" id="categories" aria-labelledby="cats-title">
+  <!-- Décors géométriques néon -->
+  <div class="cats-neon-lines" aria-hidden="true"></div>
+  <div class="cats-geo cats-geo-tr" aria-hidden="true"></div>
+  <div class="cats-geo cats-geo-bl" aria-hidden="true"></div>
+  <div class="cats-stripe cats-stripe-1" aria-hidden="true"></div>
+  <div class="cats-stripe cats-stripe-2" aria-hidden="true"></div>
+
+  <!-- Badge promo circulaire -->
+  <div class="cats-promo-badge" aria-label="Promotions disponibles">
+    <span class="cats-promo-n">-30%</span>
+    <span class="cats-promo-l">Promo</span>
+  </div>
+
   <div class="section-header">
     <div class="section-label">Boutique</div>
     <h2 class="section-title" id="cats-title">Chaussures pour tous</h2>
-    <p class="section-desc">Nike, Adidas, Jordan, Puma, Reebok et plus — pour hommes, femmes et enfants.</p>
+    <p class="section-desc">Nike, Adidas, Jordan, Puma, Reebok et plus — pour hommes, femmes et enfants. Step into the future.</p>
   </div>
+
   <div class="cats-grid">
     <a class="cat-card homme" href="#produits" data-filter="homme" aria-label="Voir chaussures homme">
       <span class="cat-emoji">👟</span>
